@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa; /* Cor de fundo suave */
+  padding: 20px; /* Espaçamento */
+}
+
+h2 {
+  color: #9b51e0; /* Cor do título */
+  text-align: center;
+  margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Estilo para botões */
+.btn {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 5px; /* Bordas arredondadas */
+  font-weight: bold; /* Deixa o texto mais destacado */
+}
+
+.btn:hover {
+  background-color: #e05c00; /* Cor de fundo ao passar o mouse */
+  transform: scale(1.05); /* Leve aumento ao passar o mouse */
+}
+
+/* Estilo para inputs */
+.form-control {
+  border-radius: 5px; /* Bordas arredondadas */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+  border: 1px solid #ccc; /* Bordas padrão */
+}
+
+.form-control:focus {
+  border-color: #9b51e0; /* Cor ao focar no input */
+  box-shadow: 0 0 5px rgba(155, 88, 224, 0.5); /* Sombra ao focar */
+}
+
+/* Estilo para inputs e selects */
+.form-control, .form-select {
+  padding: 10px; /* Espaçamento interno */
+}
+
+/* Estilo para alertas */
+.alert {
+  margin-bottom: 20px; /* Espaço abaixo do alerta */
+}

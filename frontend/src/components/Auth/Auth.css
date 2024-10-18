@@ -1,0 +1,36 @@
+/* src/components/Auth/Auth.css */
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8f9fa; /* Cor de fundo suave */
+}
+
+h2 {
+    color: #9b51e0; /* Cor do título */
+    text-align: center;
+}
+
+.btn {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px; /* Bordas arredondadas */
+}
+
+.btn:hover {
+    background-color: #e05c00; /* Cor de fundo ao passar o mouse */
+    transform: scale(1.05); /* Leve aumento ao passar o mouse */
+}
+
+.form-control {
+    border-radius: 5px; /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.form-control:focus {
+    border-color: #9b51e0; /* Cor ao focar no input */
+    box-shadow: 0 0 5px rgba(155, 88, 224, 0.5); /* Sombra ao focar */
+}
