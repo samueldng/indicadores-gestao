@@ -83,12 +83,12 @@ const styles = {
         maxWidth: '400px',
         margin: '20px auto',
         padding: '20px',
-        backgroundColor: '#f7f7f7', // Um cinza suave
+        backgroundColor: '#f7f7f7',
         borderRadius: '10px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
     },
     title: {
-        color: '#6f42c1', // Roxo
+        color: '#6f42c1',
         textAlign: 'center',
         marginBottom: '20px',
     },
@@ -108,8 +108,8 @@ const styles = {
         marginTop: '10px',
         width: '100%',
         borderRadius: '5px',
-        backgroundColor: '#ff6900', // Laranja
-        borderColor: '#ff6900', // Laranja
+        backgroundColor: '#ff6900',
+        borderColor: '#ff6900',
         transition: 'background-color 0.3s ease',
     },
 };

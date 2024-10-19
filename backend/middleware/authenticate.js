@@ -14,6 +14,7 @@ const authenticate = (req, res, next) => {
         req.user = verified; // Armazena as informações do usuário verificado no request
         next();
     } catch (error) {
+        console.error('Erro ao verificar o token:', error); // Log do erro
         // Mensagens de erro específicas
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ message: 'Token expirado' });

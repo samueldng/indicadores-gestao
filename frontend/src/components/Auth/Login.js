@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { loginUser } from '../../api'; // Ajuste este import para o seu arquivo API
+import { loginUser } from '../../api'; // Verifique o caminho do seu arquivo API
 import { Button, Form, Alert, Container } from 'react-bootstrap';
 
 const Login = () => {
@@ -14,10 +14,14 @@ const Login = () => {
         setIsSubmitting(true);
 
         try {
-            await loginUser({ username, password });
+            const response = await loginUser({ username, password });
             alert('Login bem-sucedido!'); // Redirecione ou faça outra ação aqui
+            console.log(response.data); // Verifique a resposta do login
         } catch (error) {
-            setError('Erro ao fazer login: ' + error.message);
+            // Exibe a mensagem de erro do backend, se disponível
+            const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
+            setError(errorMessage);
+            console.error(error.response); // Log da resposta de erro para depuração
         } finally {
             setIsSubmitting(false);
         }

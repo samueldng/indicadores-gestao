@@ -45,7 +45,7 @@ router.put('/:id', async (req, res) => {
     }
 
     try {
-        const indicador = await Indicador.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const indicador = await Indicador.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!indicador) {
             return res.status(404).json({ message: 'Indicador não encontrado' });
         }

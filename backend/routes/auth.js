@@ -1,5 +1,4 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -21,13 +20,14 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Nome de usuário já está em uso.' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, password: hashedPassword, role });
-        
+        // Cria o usuário sem criptografar a senha
+        const user = new User({ username, password, role });
+
         await user.save();
         res.status(201).json({ message: 'Usuário criado com sucesso' });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao criar usuário', error: error.message });
+        console.error('Erro ao criar usuário:', error); // Log do erro
+        res.status(500).json({ message: 'Erro ao criar usuário' });
     }
 });
 
@@ -43,14 +43,16 @@ router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ username });
 
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        // Verifica se o usuário existe e se a senha é correta
+        if (!user || user.password !== password) {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao realizar login', error: error.message });
+        console.error('Erro ao realizar login:', error); // Log do erro
+        res.status(500).json({ message: 'Erro ao realizar login' });
     }
 });
 

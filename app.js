@@ -19,10 +19,16 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Rotas
 const authRoutes = require('./backend/routes/auth');
-const indicadorRoutes = require('./backend/routes/indicadores'); // Corrigido para o nome correto do arquivo
+const indicadorRoutes = require('./backend/routes/indicadores');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/indicadores', indicadorRoutes);
+
+// Middleware de tratamento de erros (opcional, mas recomendado)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Algo deu errado!' });
+});
 
 // Inicia o servidor
 const PORT = process.env.PORT || 5000;
