@@ -17,11 +17,11 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const indicador = new Indicador(req.body);
+        const indicador = new Indicador({ nome, valor, mes, ano });
         await indicador.save();
         res.status(201).json(indicador);
     } catch (error) {
-        res.status(400).json({ message: 'Erro ao criar indicador', error: error.message });
+        res.status(500).json({ message: 'Erro ao criar indicador', error: error.message });
     }
 });
 
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
         }
         res.json(indicador);
     } catch (error) {
-        res.status(400).json({ message: 'Erro ao atualizar indicador', error: error.message });
+        res.status(500).json({ message: 'Erro ao atualizar indicador', error: error.message });
     }
 });
 

@@ -21,4 +21,9 @@ export const getIndicadores = async () => {
     return response.data; // Retorna os dados da resposta
 };
 
+// Função para enviar um novo indicador
+export const sendIndicators = async (indicatorData) => {
+    return await api.post('/indicadores', indicatorData);
+};
+
 // Adicione mais funções conforme necessário

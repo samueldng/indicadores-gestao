@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { loginUser } from '../../api'; // Ajuste este import para o seu arquivo API
 import { Button, Form, Alert, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate(); // Crie uma instância do navigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,10 +16,13 @@ const Login = () => {
         setIsSubmitting(true);
 
         try {
-            await loginUser({ username, password });
-            alert('Login bem-sucedido!'); // Redirecione ou faça outra ação aqui
+            const response = await loginUser({ username, password });
+            const token = response.token; // Ajuste conforme a estrutura da resposta
+            localStorage.setItem('token', token); // Armazena o token
+            alert('Login bem-sucedido!');
+            navigate('/send-indicators'); // Redireciona para a página de envio de indicadores
         } catch (error) {
-            setError('Erro ao fazer login: ' + error.message);
+            setError('Erro ao fazer login: ' + (error.response ? error.response.data.message : error.message));
         } finally {
             setIsSubmitting(false);
         }
@@ -69,12 +74,12 @@ const styles = {
         maxWidth: '400px',
         margin: '20px auto',
         padding: '20px',
-        backgroundColor: '#f7f7f7', // Um cinza suave
+        backgroundColor: '#f7f7f7',
         borderRadius: '10px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
     },
     title: {
-        color: '#6f42c1', // Roxo
+        color: '#6f42c1',
         textAlign: 'center',
         marginBottom: '20px',
     },
@@ -94,8 +99,8 @@ const styles = {
         marginTop: '10px',
         width: '100%',
         borderRadius: '5px',
-        backgroundColor: '#ff6900', // Laranja
-        borderColor: '#ff6900', // Laranja
+        backgroundColor: '#ff6900',
+        borderColor: '#ff6900',
         transition: 'background-color 0.3s ease',
     },
     linkText: {
