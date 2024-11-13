@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { loginUser } from '../../api'; // Ajuste este import para o seu arquivo API
+import { loginUser } from '../../api'; // Verifique o caminho do seu arquivo API
 import { Button, Form, Alert, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 
@@ -17,12 +17,22 @@ const Login = () => {
 
         try {
             const response = await loginUser({ username, password });
+<<<<<<< HEAD
             const token = response.token; // Ajuste conforme a estrutura da resposta
             localStorage.setItem('token', token); // Armazena o token
             alert('Login bem-sucedido!');
             navigate('/send-indicators'); // Redireciona para a página de envio de indicadores
         } catch (error) {
             setError('Erro ao fazer login: ' + (error.response ? error.response.data.message : error.message));
+=======
+            alert('Login bem-sucedido!'); // Redirecione ou faça outra ação aqui
+            console.log(response.data); // Verifique a resposta do login
+        } catch (error) {
+            // Exibe a mensagem de erro do backend, se disponível
+            const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
+            setError(errorMessage);
+            console.error(error.response); // Log da resposta de erro para depuração
+>>>>>>> 97b7357cef0287d3e5897116481908f9bb0e63a7
         } finally {
             setIsSubmitting(false);
         }

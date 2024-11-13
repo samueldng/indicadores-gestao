@@ -23,13 +23,21 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'Nome de usuário já está em uso.' });
         }
 
+<<<<<<< HEAD
         // Removido o hashing da senha (segurança reduzida)
+=======
+        // Cria o usuário sem criptografar a senha
+>>>>>>> 97b7357cef0287d3e5897116481908f9bb0e63a7
         const user = new User({ username, password, role });
 
         await user.save();
         res.status(201).json({ message: 'Usuário criado com sucesso' });
     } catch (error) {
+<<<<<<< HEAD
         console.error('Erro ao criar usuário:', error);
+=======
+        console.error('Erro ao criar usuário:', error); // Log do erro
+>>>>>>> 97b7357cef0287d3e5897116481908f9bb0e63a7
         res.status(500).json({ message: 'Erro ao criar usuário' });
     }
 };
@@ -45,7 +53,11 @@ const loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ username });
 
+<<<<<<< HEAD
         // Verificação simples da senha
+=======
+        // Verifica se o usuário existe e se a senha é correta
+>>>>>>> 97b7357cef0287d3e5897116481908f9bb0e63a7
         if (!user || user.password !== password) {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
@@ -58,6 +70,7 @@ const loginUser = async (req, res) => {
 
         res.json({ token });
     } catch (error) {
+<<<<<<< HEAD
         console.error('Erro ao realizar login:', error);
         res.status(500).json({ message: 'Erro ao realizar login' });
     }
@@ -75,6 +88,10 @@ router.get('/indicadores', async (req, res) => {
     } catch (error) {
         console.error('Erro ao buscar indicadores:', error);
         res.status(500).json({ message: 'Erro ao buscar indicadores' });
+=======
+        console.error('Erro ao realizar login:', error); // Log do erro
+        res.status(500).json({ message: 'Erro ao realizar login' });
+>>>>>>> 97b7357cef0287d3e5897116481908f9bb0e63a7
     }
 });
 
