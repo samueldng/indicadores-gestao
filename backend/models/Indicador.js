@@ -1,31 +1,45 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
+// Mapa de meses
+const mesMap = {
+    'Janeiro': '01',
+    'Fevereiro': '02',
+    'Março': '03',
+    'Abril': '04',
+    'Maio': '05',
+    'Junho': '06',
+    'Julho': '07',
+    'Agosto': '08',
+    'Setembro': '09',
+    'Outubro': '10',
+    'Novembro': '11',
+    'Dezembro': '12',
+};
+
+// Schema para o Indicador
 const IndicadorSchema = new mongoose.Schema({
     nome: { 
         type: String, 
         required: true,
-        trim: true // Remove espaços em branco no início e no final
+        trim: true,
+        maxlength: 255 
     },
     valor: { 
         type: Number, 
         required: true,
-        min: 0 // Impede valores negativos
+        min: 0 
     },
     mes: { 
         type: String, 
         required: true,
-        enum: [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 
-            'Maio', 'Junho', 'Julho', 'Agosto', 
-            'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-        ] // Lista de meses permitidos
+        enum: Object.keys(mesMap), // Usando o mapa de meses diretamente
     },
-    ano: { // Adicionando um campo para o ano
+    ano: { 
         type: Number,
         required: true,
-        min: 2000, // Impede anos muito antigos
-        max: new Date().getFullYear() // Limita ao ano atual
-    }
+        min: 2000, 
+        max: new Date().getFullYear(), 
+    },
 });
 
 // Método para exibir os dados de forma formatada (opcional)
@@ -37,8 +51,8 @@ IndicadorSchema.methods.toJSON = function() {
         nome: indicadorObject.nome,
         valor: indicadorObject.valor,
         mes: indicadorObject.mes,
-        ano: indicadorObject.ano
+        ano: indicadorObject.ano,
     };
 };
 
-module.exports = mongoose.model('Indicador', IndicadorSchema);
+export default mongoose.model('Indicador', IndicadorSchema);

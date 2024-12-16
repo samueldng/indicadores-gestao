@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { sendIndicators } from '../../api'; 
-import { Button, Form, Alert, Container } from 'react-bootstrap';
+import { Button, Form, Alert, Container, Spinner } from 'react-bootstrap';
 
 const SendIndicaSeg = () => {
     const [qtdIncidentes, setQtdIncidentes] = useState('');
@@ -14,19 +14,39 @@ const SendIndicaSeg = () => {
     const [success, setSuccess] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Validação simples para o Mês e Ano
+    const isValidMonth = (month) => {
+        const validMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        return validMonths.includes(month);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
         setIsSubmitting(true);
 
-        // Validação simples
+        // Validação simples de números
         const incidentesNum = parseInt(qtdIncidentes);
         const advertenciasNum = parseInt(qtdAdvertencias);
         const dsNum = parseInt(qtdDS);
 
         if (isNaN(incidentesNum) || isNaN(advertenciasNum) || isNaN(dsNum)) {
             setError('Todos os campos de quantidade devem ser números válidos.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        // Validação do mês
+        if (!isValidMonth(mes)) {
+            setError('Por favor, insira um mês válido (ex: Janeiro, Fevereiro, etc.).');
+            setIsSubmitting(false);
+            return;
+        }
+
+        // Validação do ano
+        if (!ano || isNaN(ano) || ano < 1900 || ano > new Date().getFullYear()) {
+            setError('Por favor, insira um ano válido.');
             setIsSubmitting(false);
             return;
         }
@@ -139,7 +159,8 @@ const SendIndicaSeg = () => {
                     disabled={isSubmitting}
                     style={styles.button}
                 >
-                    {isSubmitting ? 'Enviando...' : 'Enviar'}
+                    {isSubmitting ? <Spinner animation="border" size="sm" /> : 'Enviar'}
+                    {isSubmitting ? ' Enviando...' : ' Enviar'}
                 </Button>
             </Form>
         </Container>

@@ -1,28 +1,54 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const authenticate = (req, res, next) => {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    // Verifica se o token foi fornecido no cabeçalho Authorization
+    const token = req.header('Authorization')?.trim().replace(/^Bearer\s+/, '');
 
-    // Verifica se o token foi fornecido
+    // Se não foi fornecido, retorna erro 401
     if (!token) {
         return res.status(401).json({ message: 'Acesso negado: Token não fornecido' });
     }
 
     try {
-        // Verifica e decodifica o token
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verified; // Armazena as informações do usuário verificado no request
+        // Verifica se a chave secreta está configurada no ambiente
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) {
+            return res.status(500).json({ message: 'Erro interno: Chave secreta não configurada' });
+        }
+
+        // Tenta verificar e decodificar o token
+        const decoded = jwt.verify(token, jwtSecret);
+
+        // Armazena as informações do usuário decodificadas no objeto req.user
+        req.user = { ...decoded, tokenType: 'Bearer' };  // Adicionando tipo de token (se necessário)
+
+        // Passa o controle para o próximo middleware ou rota
         next();
     } catch (error) {
-        console.error('Erro ao verificar o token:', error); // Log do erro
-        // Mensagens de erro específicas
+        console.error('Erro ao verificar o token:', error);
+
+        // Se o token estiver expirado
         if (error.name === 'TokenExpiredError') {
-            return res.status(401).json({ message: 'Token expirado' });
-        } else if (error.name === 'JsonWebTokenError') {
-            return res.status(400).json({ message: 'Token inválido' });
+            return res.status(401).json({
+                message: 'Token expirado',
+                expiredAt: error.expiredAt ? error.expiredAt : 'Desconhecido', // Hora de expiração
+            });
         }
-        return res.status(500).json({ message: 'Erro ao verificar o token' });
+
+        // Se o token for inválido
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(400).json({
+                message: 'Token inválido. Certifique-se de que o token está correto.',
+                errorDetails: error.message // Mensagem do erro para depuração
+            });
+        }
+
+        // Em caso de erro inesperado
+        return res.status(500).json({
+            message: 'Erro ao verificar o token',
+            errorDetails: error.message // Para fornecer mais informações sobre o erro
+        });
     }
 };
 
-module.exports = authenticate;
+export default authenticate;
